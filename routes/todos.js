@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require("../models");
 
+/// INDEX ROUTE
 router.get('/', function(req, res) {
     db.Todo.find()
     .then(function(todos){
@@ -12,6 +13,7 @@ router.get('/', function(req, res) {
     });
 });
 
+/// CREATE ROUTE
 router.post('/', function(req, res) {
     db.Todo.create(req.body)
     .then(function(newTodo){
@@ -22,6 +24,7 @@ router.post('/', function(req, res) {
     });
 });
 
+/// SHOW ROUTE
 router.get('/:todoId', function(req, res){
     db.Todo.findById(req.params.todoId)
     .then(function(foundTodo){
@@ -31,6 +34,19 @@ router.get('/:todoId', function(req, res){
         res.send(err);
     });
 })
+
+/// UPDATE ROUTE
+router.put('/:todoId', function(req, res){
+   db.Todo.findOneAndUpdate({_id: req.params.todoId}, req.body, {new: true})
+   .then(function(todo){
+       res.json(todo);
+   })
+   .catch(function(err){
+       res.send(err);
+   });
+});
+
+
 
 
 module.exports = router;
