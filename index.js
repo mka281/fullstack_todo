@@ -1,14 +1,14 @@
 var express = require("express"),
     app = express(),
     port = process.env.PORT || 3000;
-    
+  
+var todoRoutes = require("./routes/todos");
+  
 app.get('/', function(req, res) {
-    res.send("hi there from express");
+    res.send("Hello from the root route");
 });
 
-app.get('/happy', function(req, res) {
-    res.send(":)");
-});
+app.use('/api/todos', todoRoutes);
 
 app.listen(port, function() {
     console.log("App is running on port " + port);
